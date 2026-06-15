@@ -882,6 +882,7 @@
 
         // 企业微信机器人推送
         const WECOM_WEBHOOK = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=6c88fc3a-577d-4d74-acc5-6349a5b128e9'
+        const WECOM_TEST_WEBHOOK = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=93585dca-b50b-4900-994c-fc90c0542f73'
 
         const sendWecomNotify = () => {
           const now = new Date()
@@ -989,7 +990,7 @@
 
           try {
             const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
-            const sent = navigator.sendBeacon(WECOM_WEBHOOK, blob)
+            const sent = navigator.sendBeacon(WECOM_TEST_WEBHOOK, blob)
             pushStatus.value = sent ? '成绩已推送至企业微信 ✅' : '推送失败，请重试 ⚠️'
           } catch (e) {
             pushStatus.value = '推送失败，请检查网络 ⚠️'
