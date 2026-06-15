@@ -741,8 +741,8 @@
                 <div class="qc-info">
                   <div class="qc-name">
                     {{ quiz.name }}
-                    <span v-if="quizResults[idx]" class="qc-badge" :class="quizResults[idx].score >= 60 ? 'pass' : 'fail'">
-                      {{ quizResults[idx].score >= 60 ? '已通过' : '已测' }}
+                    <span v-if="quizResults[idx]" class="qc-badge" :class="quizResults[idx].score >= 70 ? 'pass' : 'fail'">
+                      {{ quizResults[idx].score >= 70 ? '已通过' : '已测' }}
                     </span>
                   </div>
                   <div class="qc-desc">
@@ -827,11 +827,11 @@
         <template v-if="page === 'result'">
           <div class="test-page">
             <div class="result-card">
-              <div class="score-circle" :class="score >= 60 ? 'pass' : 'fail'">
+              <div class="score-circle" :class="score >= 70 ? 'pass' : 'fail'">
                 <div class="sc-num">{{ score }}</div>
                 <div class="sc-label">/ {{ totalScore }}</div>
               </div>
-              <div class="rc-title">{{ score >= 60 ? '🎉 恭喜通过！' : '💪 继续加油！' }}</div>
+              <div class="rc-title">{{ score >= 70 ? '🎉 恭喜通过！' : '💪 继续加油！' }}</div>
               <div class="rc-detail">
                 测试名称：{{ currentQuiz.name }}<br/>
                 正确：{{ correctCount }} / {{ currentQuiz.questions.length }} 题<br/>
