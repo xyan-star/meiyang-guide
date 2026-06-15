@@ -905,6 +905,23 @@
         <el-button @click="feedbackDialogVisible = false" round>取消</el-button>
       </div>
     </el-dialog>
+
+    <!-- Modal: 反馈提交后二维码 -->
+    <el-dialog
+      v-model="feedbackQrVisible"
+      title="感谢您的反馈！"
+      width="360px"
+      :close-on-click-modal="true"
+      center
+    >
+      <div style="text-align:center">
+        <div style="font-size:14px;color:var(--text-2);margin-bottom:16px;line-height:1.8">
+          反馈已提交成功！<br/>如有疑问或需要进一步沟通<br/>欢迎扫码添加微信
+        </div>
+        <img src="qrcode.png" alt="微信二维码" style="width:200px;height:200px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.1)" />
+        <div style="font-size:12px;color:var(--text-3);margin-top:10px">长按或截图扫码识别</div>
+      </div>
+    </el-dialog>
   </div>
 
   <!-- Vue 3 -->
@@ -1000,6 +1017,7 @@
         const feedbackPhone = ref('')
         const feedbackContent = ref('')
         const feedbackSubmitting = ref(false)
+        const feedbackQrVisible = ref(false)
 
         const manualLinks = {
           teacher: 'https://i3g7m.xetlk.com/sl/2E7OFf',
@@ -1206,14 +1224,14 @@
           feedbackPhone.value = ''
           feedbackContent.value = ''
           feedbackSubmitting.value = false
-          ElMessage.success('感谢您的反馈！我们会认真对待每一条建议')
+          feedbackQrVisible.value = true
         }
 
         return {
           dialogVisible, registerDialogVisible, manualLinks, openLink, sendWecomNotify,
           // 反馈相关
           feedbackDialogVisible, feedbackName, feedbackPhone, feedbackContent,
-          feedbackSubmitting, submitFeedback,
+          feedbackSubmitting, feedbackQrVisible, submitFeedback,
           // 测试相关
           page, quizzes, quizIndex, currentQuiz, userAnswers,
           userName, userPhone, score, correctCount, totalScore, pushStatus,
