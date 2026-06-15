@@ -123,6 +123,31 @@
       border-radius: 4px;
     }
 
+    /* ===== Section Tag ===== */
+    .section-tag {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-2);
+      margin-bottom: 12px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-tag:first-child { margin-top: 0; }
+    .section-tag i { font-size: 14px; }
+    .section-tag .st-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .st-badge.beginner { background: linear-gradient(135deg, #409EFF, #66B1FF); }
+    .st-badge.quick { background: linear-gradient(135deg, #67C23A, #85CE61); }
+    .st-badge.advanced { background: linear-gradient(135deg, #E6A23C, #EBB563); }
+
     /* ===== Action Cards Grid ===== */
     .action-grid {
       display: grid;
@@ -558,40 +583,57 @@
           </div>
 
           <!-- Action Cards -->
+          <!-- 新手上路 -->
+          <div class="section-tag">
+            <span class="st-badge beginner">新手上路</span> 从这里开始
+          </div>
           <div class="action-grid">
-            <!-- 1. 注册 -->
             <button class="action-card" @click="registerDialogVisible = true">
               <div class="ac-icon c1"><i class="fas fa-user-plus"></i></div>
               <div class="ac-name">注册账号</div>
               <div class="ac-desc">创建美羊AI学习力系统教师账号</div>
             </button>
 
-            <!-- 2. 登录 -->
             <button class="action-card" @click="openLink('https://www.meiyangxuexili.com/agent/#/login')">
               <div class="ac-icon c2"><i class="fas fa-sign-in-alt"></i></div>
               <div class="ac-name">系统登录</div>
               <div class="ac-desc">登录美羊AI学习力系统后台</div>
             </button>
+          </div>
 
-            <!-- 3. 快速了解（弹窗） -->
+          <!-- 快速上手 -->
+          <div class="section-tag">
+            <span class="st-badge quick">快速上手</span> 了解系统
+          </div>
+          <div class="action-grid">
             <button class="action-card" @click="dialogVisible = true">
               <div class="ac-icon c3"><i class="fas fa-book-open"></i></div>
               <div class="ac-name">快速了解</div>
               <div class="ac-desc">查看教师/学生操作手册及汇享资源</div>
             </button>
 
-            <!-- 4. 系统功能导览 -->
             <button class="action-card" @click="openLink('https://xyan-star.github.io/meiyang-study/')">
               <div class="ac-icon c4"><i class="fas fa-compass"></i></div>
               <div class="ac-name">功能导览</div>
               <div class="ac-desc">浏览美羊AI学习力系统全部功能</div>
             </button>
+          </div>
 
-            <!-- 5. 在线测试 -->
+          <!-- 进阶试炼 -->
+          <div class="section-tag">
+            <span class="st-badge advanced">进阶试炼</span> 实践检验
+          </div>
+          <div class="action-grid">
             <button class="action-card" @click="page = 'test-list'">
               <div class="ac-icon c1"><i class="fas fa-tasks"></i></div>
               <div class="ac-name">在线测试</div>
               <div class="ac-desc">4套知识测试，在线答题即时出分</div>
+            </button>
+
+            <button class="action-card" @click="feedbackDialogVisible = true">
+              <div class="ac-icon c2"><i class="fas fa-comment-dots"></i></div>
+              <div class="ac-name">在线反馈</div>
+              <div class="ac-desc">提交使用反馈，帮助我们改进</div>
             </button>
           </div>
         </template>
@@ -783,6 +825,36 @@
         <el-button @click="registerDialogVisible = false" round>取消</el-button>
       </div>
     </el-dialog>
+
+    <!-- Modal: 在线反馈 -->
+    <el-dialog
+      v-model="feedbackDialogVisible"
+      title="在线反馈"
+      width="420px"
+      :close-on-click-modal="true"
+      center
+    >
+      <div class="modal-note" style="margin-top:0;margin-bottom:16px">
+        <i class="fas fa-lightbulb"></i>您的反馈对我们至关重要，帮助我们不断优化系统
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <input class="uif-input" v-model="feedbackName" placeholder="请输入您的姓名" />
+        <input class="uif-input" v-model="feedbackPhone" placeholder="请输入您的手机号" />
+        <textarea
+          class="uif-input"
+          v-model="feedbackContent"
+          placeholder="请描述您的使用体验、建议或遇到的问题..."
+          rows="4"
+          style="resize:vertical;font-family:var(--font)"
+        ></textarea>
+      </div>
+      <div style="text-align:center;margin-top:18px">
+        <el-button type="primary" @click="submitFeedback" :disabled="!feedbackPhone.trim() || !feedbackContent.trim()" round>
+          提交反馈
+        </el-button>
+        <el-button @click="feedbackDialogVisible = false" round>取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 
   <!-- Vue 3 -->
@@ -873,6 +945,10 @@
       setup() {
         const dialogVisible = ref(false)
         const registerDialogVisible = ref(false)
+        const feedbackDialogVisible = ref(false)
+        const feedbackName = ref('')
+        const feedbackPhone = ref('')
+        const feedbackContent = ref('')
 
         const manualLinks = {
           teacher: 'https://i3g7m.xetlk.com/sl/2E7OFf',
@@ -1028,8 +1104,35 @@
           window.scrollTo({ top: 0, behavior: 'smooth' })
         }
 
+        const submitFeedback = () => {
+          if (!feedbackPhone.value.trim() || !feedbackContent.value.trim()) return
+          const now = new Date()
+          const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`
+          const payload = {
+            msgtype: 'markdown',
+            markdown: {
+              content: `### 💬 在线反馈通知\n> **姓名：** ${feedbackName.value || '未填写'}\n> **手机号：** ${feedbackPhone.value}\n> **时间：** ${timeStr}\n> **反馈内容：**\n> ${feedbackContent.value.replace(/\n/g, '\n> ')}`
+            }
+          }
+          const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
+          navigator.sendBeacon(WECOM_WEBHOOK, blob)
+          fetch(WECOM_WEBHOOK, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(payload)
+          }).catch(() => {})
+          feedbackDialogVisible.value = false
+          feedbackName.value = ''
+          feedbackPhone.value = ''
+          feedbackContent.value = ''
+          ElMessage.success('感谢您的反馈！我们会认真对待每一条建议')
+        }
+
         return {
           dialogVisible, registerDialogVisible, manualLinks, openLink, sendWecomNotify,
+          // 反馈相关
+          feedbackDialogVisible, feedbackName, feedbackPhone, feedbackContent, submitFeedback,
           // 测试相关
           page, quizzes, quizIndex, currentQuiz, userAnswers,
           userName, userPhone, score, correctCount, totalScore, pushStatus,
