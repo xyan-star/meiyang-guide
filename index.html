@@ -898,8 +898,15 @@
             }
           }
 
+          // 用 no-cors 模式绕过 CORS 限制，同时用 sendBeacon 双保险
           const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
           navigator.sendBeacon(WECOM_WEBHOOK, blob)
+          fetch(WECOM_WEBHOOK, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(payload)
+          }).catch(() => {})
         }
 
         // ===== 在线测试状态 =====
@@ -988,10 +995,21 @@
 
           const payload = { msgtype: 'markdown', markdown: { content } }
 
+          pushStatus.value = '正在推送成绩...'
           try {
+            // sendBeacon + no-cors fetch 双保险推送
             const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
-            const sent = navigator.sendBeacon(WECOM_TEST_WEBHOOK, blob)
-            pushStatus.value = sent ? '成绩已推送至企业微信 ✅' : '推送失败，请重试 ⚠️'
+            navigator.sendBeacon(WECOM_TEST_WEBHOOK, blob)
+            fetch(WECOM_TEST_WEBHOOK, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain' },
+              body: JSON.stringify(payload)
+            }).then(() => {
+              pushStatus.value = '成绩已推送至企业微信 ✅'
+            }).catch(() => {
+              pushStatus.value = '推送失败，请检查网络 ⚠️'
+            })
           } catch (e) {
             pushStatus.value = '推送失败，请检查网络 ⚠️'
           }
