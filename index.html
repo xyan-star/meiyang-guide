@@ -599,6 +599,7 @@
         <!-- ===== TEST LIST PAGE ===== -->
         <template v-if="page === 'test-list'">
           <div class="test-page">
+            <button class="back-btn" @click="page = 'home'"><i class="fas fa-arrow-left"></i>回到首页</button>
             <div class="test-section-title"><i class="fas fa-clipboard-list"></i>选择测试问卷</div>
             <div class="quiz-list">
               <div class="quiz-card" v-for="(quiz, idx) in quizzes" :key="quiz.id" @click="startQuiz(idx)">
@@ -628,9 +629,12 @@
             <!-- User Info -->
             <div class="user-info-form">
               <div class="uif-title"><i class="fas fa-user-edit"></i>请填写信息后开始答题</div>
+              <div style="font-size:12px;color:var(--warning);margin-bottom:12px;line-height:1.6">
+                <i class="fas fa-exclamation-triangle"></i> 为了方便领取奖励，请填写<strong>美羊系统上注册的姓名和手机号</strong>
+              </div>
               <div class="uif-row">
-                <input class="uif-input" v-model="userName" placeholder="请输入您的姓名（选填）" />
-                <input class="uif-input" v-model="userPhone" placeholder="请输入您的手机号（必填）" />
+                <input class="uif-input" v-model="userName" placeholder="请输入美羊系统注册姓名" />
+                <input class="uif-input" v-model="userPhone" placeholder="请输入美羊系统注册手机号" />
               </div>
             </div>
 
