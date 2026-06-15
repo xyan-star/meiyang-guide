@@ -897,11 +897,8 @@
             }
           }
 
-          fetch(WECOM_WEBHOOK, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          }).catch(() => {})
+          const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
+          navigator.sendBeacon(WECOM_WEBHOOK, blob)
         }
 
         // ===== 在线测试状态 =====
@@ -990,21 +987,13 @@
 
           const payload = { msgtype: 'markdown', markdown: { content } }
 
-          fetch(WECOM_WEBHOOK, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          })
-          .then(r => {
-            if (r.ok) {
-              pushStatus.value = '成绩已推送至企业微信 ✅'
-            } else {
-              pushStatus.value = '推送失败，请重试 ⚠️'
-            }
-          })
-          .catch(() => {
+          try {
+            const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
+            const sent = navigator.sendBeacon(WECOM_WEBHOOK, blob)
+            pushStatus.value = sent ? '成绩已推送至企业微信 ✅' : '推送失败，请重试 ⚠️'
+          } catch (e) {
             pushStatus.value = '推送失败，请检查网络 ⚠️'
-          })
+          }
         }
 
         const retryQuiz = () => {
