@@ -407,6 +407,56 @@
     .uif-input:focus { border-color: var(--primary); }
     .uif-input::placeholder { color: var(--text-4); }
 
+    /* Feedback Image Upload */
+    .feedback-upload-area {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: #fafafa;
+    }
+    .feedback-upload-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .feedback-upload-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .feedback-img-hint {
+      font-size: 12px;
+      color: var(--text-3);
+      max-width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .feedback-preview {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .feedback-img-remove {
+      font-size: 12px;
+      color: var(--danger);
+      cursor: pointer;
+      margin-left: auto;
+    }
+    .feedback-img-remove:hover { text-decoration: underline; }
+
     /* Question Block */
     .question-block {
       background: var(--bg-white);
@@ -847,9 +897,20 @@
           rows="4"
           style="resize:vertical;font-family:var(--font)"
         ></textarea>
+
+        <!-- Image Upload -->
+        <div class="feedback-upload-area">
+          <label class="feedback-upload-btn">
+            <input type="file" accept="image/*" @change="handleFeedbackImage" style="display:none" />
+            <i class="fas fa-camera"></i> 上传截图（选填）
+          </label>
+          <span v-if="feedbackImageName" class="feedback-img-hint">{{ feedbackImageName }}</span>
+          <img v-if="feedbackImagePreview" :src="feedbackImagePreview" class="feedback-preview" />
+          <span v-if="feedbackImagePreview" class="feedback-img-remove" @click="removeFeedbackImage">✕ 移除</span>
+        </div>
       </div>
       <div style="text-align:center;margin-top:18px">
-        <el-button type="primary" @click="submitFeedback" :disabled="!feedbackPhone.trim() || !feedbackContent.trim()" round>
+        <el-button type="primary" @click="submitFeedback" :disabled="!feedbackPhone.trim() || !feedbackContent.trim()" :loading="feedbackSubmitting" round>
           提交反馈
         </el-button>
         <el-button @click="feedbackDialogVisible = false" round>取消</el-button>
@@ -861,6 +922,8 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <!-- Element Plus -->
   <script src="https://unpkg.com/element-plus"></script>
+  <!-- SparkMD5 for WeChat image upload -->
+  <script src="https://unpkg.com/spark-md5@3.0.2/spark-md5.min.js"></script>
 
   <script>
     const { createApp, ref, reactive, computed, watch } = Vue
@@ -949,6 +1012,11 @@
         const feedbackName = ref('')
         const feedbackPhone = ref('')
         const feedbackContent = ref('')
+        const feedbackImageName = ref('')
+        const feedbackImagePreview = ref('')
+        const feedbackImageBase64 = ref('')
+        const feedbackImageMd5 = ref('')
+        const feedbackSubmitting = ref(false)
 
         const manualLinks = {
           teacher: 'https://i3g7m.xetlk.com/sl/2E7OFf',
@@ -1104,35 +1172,91 @@
           window.scrollTo({ top: 0, behavior: 'smooth' })
         }
 
-        const submitFeedback = () => {
+        // --- 反馈图片处理 ---
+        const handleFeedbackImage = (e) => {
+          const file = e.target.files[0]
+          if (!file) return
+          feedbackImageName.value = file.name
+          const reader = new FileReader()
+          reader.onload = (ev) => {
+            const dataUrl = ev.target.result
+            feedbackImagePreview.value = dataUrl
+            // 提取纯 base64（去掉 data:image/...;base64, 前缀）
+            const base64 = dataUrl.split(',')[1]
+            feedbackImageBase64.value = base64
+            // 用 SparkMD5 计算文件二进制内容的 MD5
+            const spark = new SparkMD5.ArrayBuffer()
+            spark.append(file)
+            feedbackImageMd5.value = spark.end()
+          }
+          reader.readAsDataURL(file)
+        }
+        const removeFeedbackImage = () => {
+          feedbackImageName.value = ''
+          feedbackImagePreview.value = ''
+          feedbackImageBase64.value = ''
+          feedbackImageMd5.value = ''
+        }
+
+        const submitFeedback = async () => {
           if (!feedbackPhone.value.trim() || !feedbackContent.value.trim()) return
+          feedbackSubmitting.value = true
           const now = new Date()
           const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`
-          const payload = {
+
+          const hasImage = feedbackImageBase64.value && feedbackImageMd5.value
+
+          const textPayload = {
             msgtype: 'markdown',
             markdown: {
-              content: `### 💬 在线反馈通知\n> **姓名：** ${feedbackName.value || '未填写'}\n> **手机号：** ${feedbackPhone.value}\n> **时间：** ${timeStr}\n> **反馈内容：**\n> ${feedbackContent.value.replace(/\n/g, '\n> ')}`
+              content: `### 💬 在线反馈通知\n> **姓名：** ${feedbackName.value || '未填写'}\n> **手机号：** ${feedbackPhone.value}\n> **时间：** ${timeStr}\n> **反馈内容：**\n> ${feedbackContent.value.replace(/\n/g, '\n> ')}${hasImage ? '\n\n📷 已附截图 ↑' : ''}`
             }
           }
-          const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' })
+
+          // 发送文字通知
+          const blob = new Blob([JSON.stringify(textPayload)], { type: 'application/json' })
           navigator.sendBeacon(WECOM_WEBHOOK, blob)
           fetch(WECOM_WEBHOOK, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(textPayload)
           }).catch(() => {})
+
+          // 如果有图片，发送图片消息
+          if (hasImage) {
+            const imgPayload = {
+              msgtype: 'image',
+              image: {
+                base64: feedbackImageBase64.value,
+                md5: feedbackImageMd5.value
+              }
+            }
+            const ib = new Blob([JSON.stringify(imgPayload)], { type: 'application/json' })
+            navigator.sendBeacon(WECOM_WEBHOOK, ib)
+            fetch(WECOM_WEBHOOK, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain' },
+              body: JSON.stringify(imgPayload)
+            }).catch(() => {})
+          }
+
           feedbackDialogVisible.value = false
           feedbackName.value = ''
           feedbackPhone.value = ''
           feedbackContent.value = ''
+          removeFeedbackImage()
+          feedbackSubmitting.value = false
           ElMessage.success('感谢您的反馈！我们会认真对待每一条建议')
         }
 
         return {
           dialogVisible, registerDialogVisible, manualLinks, openLink, sendWecomNotify,
           // 反馈相关
-          feedbackDialogVisible, feedbackName, feedbackPhone, feedbackContent, submitFeedback,
+          feedbackDialogVisible, feedbackName, feedbackPhone, feedbackContent,
+          feedbackImageName, feedbackImagePreview, feedbackImageBase64, feedbackImageMd5,
+          feedbackSubmitting, handleFeedbackImage, removeFeedbackImage, submitFeedback,
           // 测试相关
           page, quizzes, quizIndex, currentQuiz, userAnswers,
           userName, userPhone, score, correctCount, totalScore, pushStatus,
