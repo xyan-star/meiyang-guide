@@ -269,6 +269,267 @@
     .el-overlay {
       background-color: rgba(0,0,0,0.4) !important;
     }
+
+    /* ===== Test Pages ===== */
+    .test-page {
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .test-section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .test-section-title i { color: var(--primary); font-size: 20px; }
+
+    /* Back Button */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-3);
+      cursor: pointer;
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      margin-bottom: 16px;
+      font-family: var(--font);
+    }
+    .back-btn:hover { color: var(--primary); border-color: var(--primary-light); background: var(--primary-bg); }
+
+    /* Quiz List Cards */
+    .quiz-list { display: flex; flex-direction: column; gap: 14px; }
+    .quiz-card {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border-left: 4px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .quiz-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .quiz-card .qc-icon {
+      width: 50px; height: 50px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: #fff; flex-shrink: 0;
+    }
+    .quiz-card .qc-icon.q1 { background: linear-gradient(135deg, #409EFF, #66B1FF); }
+    .quiz-card .qc-icon.q2 { background: linear-gradient(135deg, #67C23A, #85CE61); }
+    .quiz-card .qc-icon.q3 { background: linear-gradient(135deg, #E6A23C, #EBB563); }
+    .quiz-card .qc-icon.q4 { background: linear-gradient(135deg, #9B59B6, #BB8FCE); }
+    .quiz-card .qc-info { flex: 1; min-width: 0; }
+    .quiz-card .qc-name { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .quiz-card .qc-desc { font-size: 12px; color: var(--text-3); }
+    .quiz-card .qc-arrow { color: var(--text-4); font-size: 16px; flex-shrink: 0; }
+
+    /* Quiz Taking Page */
+    .quiz-header {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .quiz-header .qh-title { font-size: 15px; font-weight: 600; color: var(--text); }
+    .quiz-header .qh-progress { font-size: 13px; color: var(--primary); font-weight: 500; }
+
+    /* User Info Form */
+    .user-info-form {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .user-info-form .uif-title {
+      font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .user-info-form .uif-title i { color: var(--primary); }
+    .user-info-form .uif-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    @media (max-width: 480px) {
+      .user-info-form .uif-row { grid-template-columns: 1fr; }
+    }
+    .uif-input {
+      width: 100%; padding: 10px 14px;
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      font-size: 14px; font-family: var(--font); color: var(--text);
+      outline: none; transition: border-color 0.2s; background: var(--bg);
+    }
+    .uif-input:focus { border-color: var(--primary); }
+    .uif-input::placeholder { color: var(--text-4); }
+
+    /* Question Block */
+    .question-block {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 14px;
+      transition: all 0.2s;
+    }
+    .question-block.answered { border-left: 3px solid var(--success); }
+    .question-block .qb-num {
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary-bg);
+      color: var(--primary);
+      font-size: 13px; font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .question-block .qb-type {
+      display: inline-block;
+      font-size: 11px; color: var(--text-3);
+      background: var(--bg);
+      padding: 2px 8px; border-radius: 4px;
+      margin-left: 8px;
+    }
+    .question-block .qb-text {
+      font-size: 15px; font-weight: 500; color: var(--text);
+      line-height: 1.6; margin-bottom: 14px;
+    }
+
+    /* Options */
+    .option-list { display: flex; flex-direction: column; gap: 8px; }
+    .option-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      border: 2px solid var(--border-l);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px; color: var(--text-2);
+      font-family: var(--font);
+      text-align: left;
+      width: 100%;
+      background: var(--bg-white);
+    }
+    .option-item:hover { border-color: var(--primary-light); background: var(--primary-bg); }
+    .option-item.selected {
+      border-color: var(--primary); background: var(--primary-bg); color: var(--primary); font-weight: 500;
+    }
+    .option-item .oi-radio {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .option-item.selected .oi-radio {
+      border-color: var(--primary); background: var(--primary);
+    }
+    .option-item.selected .oi-radio::after {
+      content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff;
+    }
+
+    /* Submit Button */
+    .submit-area {
+      text-align: center;
+      padding: 20px 0;
+    }
+    .submit-btn {
+      padding: 14px 48px;
+      font-size: 16px; font-weight: 600;
+      border: none; border-radius: 28px;
+      background: linear-gradient(135deg, #409EFF, #66B1FF);
+      color: #fff; cursor: pointer;
+      transition: all 0.25s;
+      font-family: var(--font);
+      box-shadow: 0 4px 14px rgba(64,158,255,0.35);
+    }
+    .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(64,158,255,0.45); }
+    .submit-btn:disabled { background: var(--border); box-shadow: none; cursor: not-allowed; }
+
+    /* Result Page */
+    .result-card {
+      background: var(--bg-white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .score-circle {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-weight: 700;
+    }
+    .score-circle.pass { background: linear-gradient(135deg, #E1F3D8, #C6E9B4); color: #529B2E; }
+    .score-circle.fail { background: linear-gradient(135deg, #FDE2E2, #FAB6B6); color: #D14343; }
+    .score-circle .sc-num { font-size: 36px; line-height: 1; }
+    .score-circle .sc-label { font-size: 12px; margin-top: 2px; }
+    .result-card .rc-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .result-card .rc-detail { font-size: 13px; color: var(--text-3); margin-bottom: 20px; line-height: 1.8; }
+    .result-card .rc-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .rc-btn {
+      padding: 10px 24px;
+      border-radius: 22px; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: all 0.2s; font-family: var(--font);
+      border: 1px solid var(--border);
+      background: var(--bg-white); color: var(--text-2);
+    }
+    .rc-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .rc-btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .rc-btn.primary:hover { background: var(--primary-dark); }
+
+    /* Answer Review */
+    .review-section { margin-top: 20px; }
+    .review-section .rs-title {
+      font-size: 15px; font-weight: 600; color: var(--text);
+      margin-bottom: 12px; text-align: left;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .review-item {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      text-align: left;
+      border-left: 3px solid var(--border);
+      font-size: 13px; line-height: 1.6;
+    }
+    .review-item.correct { border-left-color: var(--success); background: #F0F9EB; }
+    .review-item.wrong { border-left-color: var(--danger); background: #FEF0F0; }
+    .review-item .ri-q { color: var(--text); font-weight: 500; margin-bottom: 4px; }
+    .review-item .ri-a { color: var(--text-3); }
+    .review-item .ri-a span { font-weight: 600; }
+    .review-item .ri-a span.correct-answer { color: var(--success); }
+    .review-item .ri-a span.wrong-answer { color: var(--danger); }
+
+    /* Empty state */
+    .test-empty {
+      text-align: center; padding: 40px 20px; color: var(--text-3);
+    }
+    .test-empty i { font-size: 40px; margin-bottom: 12px; display: block; }
   </style>
 </head>
 <body>
@@ -283,46 +544,181 @@
 
       <!-- Main Content -->
       <div class="main">
-        <!-- Welcome -->
-        <div class="welcome-card">
-          <div class="welcome-icon"><i class="fas fa-star"></i></div>
-          <h2>欢迎使用美羊AI学习力系统</h2>
-          <p class="welcome-desc">
-            美羊AI学习力系统是由北京师范大学杨娟教授及其团队亲历打造的一款以"让每个孩子学会学习，爱上学习"为主旨的智能化教育平台
-          </p>
-          <span class="team-tag">北师大杨娟教授团队</span>
-        </div>
 
-        <!-- Action Cards -->
-        <div class="action-grid">
-          <!-- 1. 注册 -->
-          <button class="action-card" @click="registerDialogVisible = true">
-            <div class="ac-icon c1"><i class="fas fa-user-plus"></i></div>
-            <div class="ac-name">注册账号</div>
-            <div class="ac-desc">创建美羊AI学习力系统教师账号</div>
-          </button>
+        <!-- ===== HOME PAGE ===== -->
+        <template v-if="page === 'home'">
+          <!-- Welcome -->
+          <div class="welcome-card">
+            <div class="welcome-icon"><i class="fas fa-star"></i></div>
+            <h2>欢迎使用美羊AI学习力系统</h2>
+            <p class="welcome-desc">
+              美羊AI学习力系统是由北京师范大学杨娟教授及其团队亲历打造的一款以"让每个孩子学会学习，爱上学习"为主旨的智能化教育平台
+            </p>
+            <span class="team-tag">北师大杨娟教授团队</span>
+          </div>
 
-          <!-- 2. 登录 -->
-          <button class="action-card" @click="openLink('https://www.meiyangxuexili.com/agent/#/login')">
-            <div class="ac-icon c2"><i class="fas fa-sign-in-alt"></i></div>
-            <div class="ac-name">系统登录</div>
-            <div class="ac-desc">登录美羊AI学习力系统后台</div>
-          </button>
+          <!-- Action Cards -->
+          <div class="action-grid">
+            <!-- 1. 注册 -->
+            <button class="action-card" @click="registerDialogVisible = true">
+              <div class="ac-icon c1"><i class="fas fa-user-plus"></i></div>
+              <div class="ac-name">注册账号</div>
+              <div class="ac-desc">创建美羊AI学习力系统教师账号</div>
+            </button>
 
-          <!-- 3. 快速了解（弹窗） -->
-          <button class="action-card" @click="dialogVisible = true">
-            <div class="ac-icon c3"><i class="fas fa-book-open"></i></div>
-            <div class="ac-name">快速了解</div>
-            <div class="ac-desc">查看教师/学生操作手册及汇享资源</div>
-          </button>
+            <!-- 2. 登录 -->
+            <button class="action-card" @click="openLink('https://www.meiyangxuexili.com/agent/#/login')">
+              <div class="ac-icon c2"><i class="fas fa-sign-in-alt"></i></div>
+              <div class="ac-name">系统登录</div>
+              <div class="ac-desc">登录美羊AI学习力系统后台</div>
+            </button>
 
-          <!-- 4. 系统功能导览 -->
-          <button class="action-card" @click="openLink('https://xyan-star.github.io/meiyang-study/')">
-            <div class="ac-icon c4"><i class="fas fa-compass"></i></div>
-            <div class="ac-name">功能导览</div>
-            <div class="ac-desc">浏览美羊AI学习力系统全部功能</div>
-          </button>
-        </div>
+            <!-- 3. 快速了解（弹窗） -->
+            <button class="action-card" @click="dialogVisible = true">
+              <div class="ac-icon c3"><i class="fas fa-book-open"></i></div>
+              <div class="ac-name">快速了解</div>
+              <div class="ac-desc">查看教师/学生操作手册及汇享资源</div>
+            </button>
+
+            <!-- 4. 系统功能导览 -->
+            <button class="action-card" @click="openLink('https://xyan-star.github.io/meiyang-study/')">
+              <div class="ac-icon c4"><i class="fas fa-compass"></i></div>
+              <div class="ac-name">功能导览</div>
+              <div class="ac-desc">浏览美羊AI学习力系统全部功能</div>
+            </button>
+
+            <!-- 5. 在线测试 -->
+            <button class="action-card" @click="page = 'test-list'">
+              <div class="ac-icon c1"><i class="fas fa-tasks"></i></div>
+              <div class="ac-name">在线测试</div>
+              <div class="ac-desc">4套知识测试，在线答题即时出分</div>
+            </button>
+          </div>
+        </template>
+
+        <!-- ===== TEST LIST PAGE ===== -->
+        <template v-if="page === 'test-list'">
+          <div class="test-page">
+            <div class="test-section-title"><i class="fas fa-clipboard-list"></i>选择测试问卷</div>
+            <div class="quiz-list">
+              <div class="quiz-card" v-for="(quiz, idx) in quizzes" :key="quiz.id" @click="startQuiz(idx)">
+                <div class="qc-icon" :class="'q' + (idx + 1)">
+                  <i :class="quiz.icon"></i>
+                </div>
+                <div class="qc-info">
+                  <div class="qc-name">{{ quiz.name }}</div>
+                  <div class="qc-desc">{{ quiz.desc }} · {{ quiz.questions.length }}题 · 满分100分</div>
+                </div>
+                <div class="qc-arrow"><i class="fas fa-chevron-right"></i></div>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <!-- ===== QUIZ PAGE ===== -->
+        <template v-if="page === 'quiz'">
+          <div class="test-page">
+            <button class="back-btn" @click="page = 'test-list'"><i class="fas fa-arrow-left"></i>返回列表</button>
+
+            <div class="quiz-header">
+              <div class="qh-title">{{ currentQuiz.name }}</div>
+              <div class="qh-progress">已答 {{ answeredCount }} / {{ currentQuiz.questions.length }} 题</div>
+            </div>
+
+            <!-- User Info -->
+            <div class="user-info-form">
+              <div class="uif-title"><i class="fas fa-user-edit"></i>请填写信息后开始答题</div>
+              <div class="uif-row">
+                <input class="uif-input" v-model="userName" placeholder="请输入您的姓名（选填）" />
+                <input class="uif-input" v-model="userPhone" placeholder="请输入您的手机号（必填）" />
+              </div>
+            </div>
+
+            <!-- Questions -->
+            <div
+              v-for="(q, qi) in currentQuiz.questions"
+              :key="qi"
+              class="question-block"
+              :class="{ answered: userAnswers[qi] !== undefined }"
+            >
+              <div>
+                <span class="qb-num">{{ qi + 1 }}</span>
+                <span class="qb-type">{{ q.type === 'single' ? '单选题' : '判断题' }}</span>
+              </div>
+              <div class="qb-text">{{ q.text }}</div>
+              <div class="option-list">
+                <button
+                  v-for="(opt, oi) in q.options"
+                  :key="oi"
+                  class="option-item"
+                  :class="{ selected: userAnswers[qi] === oi }"
+                  @click="userAnswers[qi] = oi"
+                >
+                  <span class="oi-radio"></span>
+                  <span>{{ optionLabel(oi) }}. {{ opt }}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="submit-area">
+              <button
+                class="submit-btn"
+                :disabled="!canSubmit"
+                @click="submitQuiz"
+              >
+                <i class="fas fa-paper-plane" style="margin-right:6px"></i>提交答卷
+              </button>
+              <div v-if="!canSubmit" style="font-size:12px;color:var(--text-3);margin-top:10px">
+                <span v-if="answeredCount < currentQuiz.questions.length">请答完所有题目后再提交（还剩 {{ currentQuiz.questions.length - answeredCount }} 题）</span>
+                <span v-else-if="!userPhone">请输入手机号</span>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <!-- ===== RESULT PAGE ===== -->
+        <template v-if="page === 'result'">
+          <div class="test-page">
+            <div class="result-card">
+              <div class="score-circle" :class="score >= 60 ? 'pass' : 'fail'">
+                <div class="sc-num">{{ score }}</div>
+                <div class="sc-label">/ {{ totalScore }}</div>
+              </div>
+              <div class="rc-title">{{ score >= 60 ? '🎉 恭喜通过！' : '💪 继续加油！' }}</div>
+              <div class="rc-detail">
+                测试名称：{{ currentQuiz.name }}<br/>
+                正确：{{ correctCount }} / {{ currentQuiz.questions.length }} 题<br/>
+                <span v-if="pushStatus">{{ pushStatus }}</span>
+              </div>
+              <div class="rc-actions">
+                <button class="rc-btn primary" @click="retryQuiz">重新作答</button>
+                <button class="rc-btn" @click="page = 'test-list'">返回列表</button>
+                <button class="rc-btn" @click="page = 'home'">回到首页</button>
+              </div>
+            </div>
+
+            <!-- Answer Review -->
+            <div class="review-section">
+              <div class="rs-title"><i class="fas fa-list-check"></i>答题回顾</div>
+              <div
+                v-for="(q, qi) in currentQuiz.questions"
+                :key="'r' + qi"
+                class="review-item"
+                :class="userAnswers[qi] === q.answer ? 'correct' : 'wrong'"
+              >
+                <div class="ri-q">{{ qi + 1 }}. {{ q.text }}</div>
+                <div class="ri-a">
+                  你的答案：<span :class="userAnswers[qi] === q.answer ? 'correct-answer' : 'wrong-answer'">{{ optionLabel(userAnswers[qi]) }}. {{ q.options[userAnswers[qi]] || '未作答' }}</span>
+                  <template v-if="userAnswers[qi] !== q.answer">
+                    &nbsp;|&nbsp;正确答案：<span class="correct-answer">{{ optionLabel(q.answer) }}. {{ q.options[q.answer] }}</span>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+
       </div>
 
       <!-- Footer -->
@@ -391,7 +787,83 @@
   <script src="https://unpkg.com/element-plus"></script>
 
   <script>
-    const { createApp, ref } = Vue
+    const { createApp, ref, reactive, computed, watch } = Vue
+
+    // ===== 题库数据 =====
+    const quizBank = [
+      {
+        id: 'quiz1',
+        name: '美羊AI学习力系统知识测试',
+        desc: '测试对美羊AI学习力系统的了解程度',
+        icon: 'fas fa-brain',
+        questions: [
+          { type:'single', text:'美羊AI学习力系统是由哪个专家团队领衔研发的？', options:['清华大学李华教授团队','北京师范大学杨娟教授团队','北京大学王明教授团队','复旦大学张伟教授团队'], answer:1 },
+          { type:'single', text:'美羊AI学习力系统内置的专业测评工具总共有多少个？', options:['10个','12个','14个','16个'], answer:2 },
+          { type:'single', text:'学生完成学习力综合测评（前测）后，可以从教师后台查看并下载？', options:['解读指南+网页简版报告','测评报告+网页简版报告','解读指南+测评报告'], answer:2 },
+          { type:'single', text:'美羊AI学习力系统的三端协同不包括以下哪一个端口？', options:['学生端','教师端','校长端','家长端'], answer:3 },
+          { type:'single', text:'小学学科素养课主要面向哪个学段的学生设计？', options:['1-3年级','4-6年级','7-9年级','高中年级'], answer:1 },
+          { type:'tf', text:'美羊AI学习力系统的核心理念是"让每个孩子学会学习，爱上学习"。', options:['正确','错误'], answer:0 },
+          { type:'tf', text:'学习力综合测评的在线简版报告需要教师下载后才能查看。', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'美羊AI学习力系统的课程资源支持用户进行二次编辑和离线保存。', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'7大专项测评对合作伙伴的学生免费开放，可用于设计引流活动。', options:['正确','错误'], answer:0 },
+          { type:'tf', text:'学生账号可自行在系统中下载【学习力综合测评(前测)】的解读指南。', options:['正确','错误'], answer:1 }
+        ]
+      },
+      {
+        id: 'quiz2',
+        name: '美羊系统转化测试',
+        desc: '测试从测评到课程转化的专业能力',
+        icon: 'fas fa-chart-line',
+        questions: [
+          { type:'single', text:'标准测评指导语中，不包含以下哪一项？', options:['测评不是考试，不用考虑对错','需要独立作答，不请教他人','尊重第一感受，不用反复斟酌','不会的题目可以由家长代为选择'], answer:3 },
+          { type:'single', text:'关于测评作答规范，说法正确的是', options:['家长代答更贴合实际','必须学生独立作答，数据才真实','可以边做边参考同学答案','随便勾选不影响测评结果'], answer:1 },
+          { type:'single', text:'线上进行测评时，正确的做法是？', options:['直接发链接，无需任何测前指导','做好测前指导，讲解线上测评注意事项','告诉家长随便填写即可','等到测评结束后再说明测评用途'], answer:1 },
+          { type:'single', text:'下列哪项最不利于测评后的家长成交转化？', options:['专业解读报告，点出孩子问题','结合测评报告，提出可落地的提升方案','夸大问题制造焦虑，强行逼单','建立专业信任，匹配适配课程'], answer:2 },
+          { type:'single', text:'想做好测评到课程的转化，核心关键是？', options:['只发报告即可，不需要做任何过多动作','专业一对一解读+学情痛点分析','一味低价推销课程','只聊分数，不分析问题根源'], answer:1 },
+          { type:'tf', text:'孩子粗心问题，只靠自己反复检查就能彻底改善。', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'孩子讨厌学数学，本质都是智力不足学不会。', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'家长代替孩子完成测评，数据更有参考价值。', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'学习力前测属于发展性报告，不是单纯标准化考试。', options:['正确','错误'], answer:0 },
+          { type:'tf', text:'测评后的一对一解读，是建立信任、促成转化的关键环节。', options:['正确','错误'], answer:0 }
+        ]
+      },
+      {
+        id: 'quiz3',
+        name: '团辅课/团体示范课测试',
+        desc: '测试团辅课教学设计与运营知识',
+        icon: 'fas fa-users',
+        questions: [
+          { type:'single', text:'关于学习力团辅课，以下哪项描述是正确的？', options:['仅提供课件，没有教师手册和学生手册','提供了36节团辅课的课件、教师手册和学生手册','学习力团辅课比一对一课程更具有个性化','团辅课课件内容只适合高中生使用'], answer:1 },
+          { type:'single', text:'在学习力团辅课中，课程分为几个阶段？', options:['一阶','二阶','三阶','四阶'], answer:2 },
+          { type:'single', text:'在学习力团辅课中，一阶课程的主要内容是什么？', options:['外部探索能力','生涯探索和系统的学习策略训练','深入自我探索与习惯养成','学科素养与应试技巧'], answer:2 },
+          { type:'single', text:'标准的一节学习力团辅课教学设计流程包含哪四个阶段？', options:['导入、新课讲授、巩固练习、布置作业','暖身阶段、转换阶段、工作阶段、结束阶段','开场白、主题引入、案例分析、总结分享','破冰游戏、知识讲解、互动讨论、课后打卡'], answer:1 },
+          { type:'single', text:'在团辅课的"工作阶段"，通常包含哪些活动形式？', options:['只是老师讲解理论知识','纯粹做游戏放松','知识讲解、互动练习、小组讨论、角色扮演等','给学生播放视频，无需互动'], answer:2 },
+          { type:'tf', text:'美羊AI学习力系统后台的【汇享资源】板块直接包含了学习力团辅课的所有课件、教师手册和学生手册。', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'在设计团体营时，只需要考虑课程内容，其他如场地、物料、师资都不重要。', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'在团辅课中，确保学生的安全只包括身体上的安全。', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'在线上营中，为了维持学生的注意力，老师应该全程主导讲解，避免给学生互动机会。', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'设计一个营的"主题和内容"时，老师可以完全自由地从系统提供的36节课中选择课程。', options:['正确','错误'], answer:0 }
+        ]
+      },
+      {
+        id: 'quiz4',
+        name: '学习力1V1辅导课测试',
+        desc: '测试1对1个性化辅导的知识掌握',
+        icon: 'fas fa-user-graduate',
+        questions: [
+          { type:'single', text:'学生完成学习力综合测评后，系统会根据测评结果提供以下哪种内容？', options:['统一教辅材料','个性化课程','集体复习课','课外兴趣班'], answer:1 },
+          { type:'single', text:'一对一视频课程的流程不包含以下哪一项？', options:['问题引入','杨老师辅导','模拟考试','总结归纳'], answer:2 },
+          { type:'single', text:'学生填写的【学习状态跟踪本】中，不包含哪项内容？', options:['情绪状态','精力状态','学习效率','家庭环境'], answer:3 },
+          { type:'single', text:'【学习状态跟踪本】中，学习效率记录表主要记录的是：', options:['上课效率、作业效率、整体效率','阅读速度、背诵速度、书写速度','预习情况、复习情况、考试情况','课堂纪律、作业态度、专注时长'], answer:0 },
+          { type:'single', text:'标准化的1V1视频课上课流程中，以下流程中错误的是', options:['状态复盘：需要对情绪状态，精力状态，学习效率等状态进行复盘','作业复盘：完成的不好的作业需要进行复盘，完成好的作业不需要复盘','视频课观看：观看过程中，需要经常暂停视频，与学生讨论视频课相关内容','总结行动：对本次课的收获进行总结，并做好下一步行动安排'], answer:1 },
+          { type:'tf', text:'学习力测评结束后，所有学生推荐的课程都是一样的', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'上课流程只需要复盘作业，不需要复盘学习状态', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'【学习状态跟踪本】可以每天记录学生状态，每周形成变化曲线', options:['正确','错误'], answer:0 },
+          { type:'tf', text:'上视频课时，老师全程只需要在一旁看着，不需要和学生交流互动', options:['正确','错误'], answer:1 },
+          { type:'tf', text:'舒尔特方格是美羊学习力工具盒中包含的专注力训练工具', options:['正确','错误'], answer:0 }
+        ]
+      }
+    ]
 
     const app = createApp({
       setup() {
@@ -432,7 +904,126 @@
           }).catch(() => {})
         }
 
-        return { dialogVisible, registerDialogVisible, manualLinks, openLink, sendWecomNotify }
+        // ===== 在线测试状态 =====
+        const page = ref('home')         // home | test-list | quiz | result
+        const quizIndex = ref(0)         // 当前测试的索引
+        const userAnswers = reactive({}) // 用户答案 { 0: 1, 1: 2, ... }
+        const userName = ref('')
+        const userPhone = ref('')
+        const score = ref(0)
+        const correctCount = ref(0)
+        const totalScore = ref(100)
+        const pushStatus = ref('')
+
+        const quizzes = quizBank
+        const currentQuiz = computed(() => quizzes[quizIndex.value])
+
+        const answeredCount = computed(() => {
+          if (!currentQuiz.value) return 0
+          let count = 0
+          for (let i = 0; i < currentQuiz.value.questions.length; i++) {
+            if (userAnswers[i] !== undefined) count++
+          }
+          return count
+        })
+
+        const canSubmit = computed(() => {
+          if (!currentQuiz.value) return false
+          if (!userPhone.value.trim()) return false
+          return answeredCount.value === currentQuiz.value.questions.length
+        })
+
+        const optionLabel = (idx) => {
+          if (idx === undefined || idx === null) return '?'
+          return String.fromCharCode(65 + idx) // A, B, C, D...
+        }
+
+        const startQuiz = (idx) => {
+          quizIndex.value = idx
+          // 清空之前的答案
+          Object.keys(userAnswers).forEach(k => delete userAnswers[k])
+          userName.value = ''
+          userPhone.value = ''
+          score.value = 0
+          correctCount.value = 0
+          pushStatus.value = ''
+          page.value = 'quiz'
+          // 滚动到顶部
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+
+        const submitQuiz = () => {
+          const quiz = currentQuiz.value
+          let correct = 0
+          quiz.questions.forEach((q, i) => {
+            if (userAnswers[i] === q.answer) correct++
+          })
+          correctCount.value = correct
+          score.value = correct * 10
+          totalScore.value = quiz.questions.length * 10
+
+          // 推送企业微信
+          pushToWecom(quiz, correct)
+
+          page.value = 'result'
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+
+        const pushToWecom = (quiz, correct) => {
+          const now = new Date()
+          const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`
+          const total = quiz.questions.length
+          const sc = correct * 10
+
+          // 构建答题详情
+          let detailLines = ''
+          quiz.questions.forEach((q, i) => {
+            const userAns = userAnswers[i]
+            const userOpt = userAns !== undefined ? q.options[userAns] : '未作答'
+            const correctOpt = q.options[q.answer]
+            const icon = userAns === q.answer ? '✅' : '❌'
+            detailLines += `\n> ${icon} **第${i+1}题：** ${q.text}`
+            detailLines += `\n> 你的答案：${userOpt} | 正确答案：${correctOpt}`
+          })
+
+          const content = `### 📝 在线测试成绩通知\n> **测试名称：** ${quiz.name}\n> **用户姓名：** ${userName.value || '未填写'}\n> **手机号：** ${userPhone.value}\n> **得分：** ${sc}/${total*10}（${correct}/${total}）\n> **时间：** ${timeStr}\n${detailLines}`
+
+          const payload = { msgtype: 'markdown', markdown: { content } }
+
+          fetch(WECOM_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          })
+          .then(r => {
+            if (r.ok) {
+              pushStatus.value = '成绩已推送至企业微信 ✅'
+            } else {
+              pushStatus.value = '推送失败，请重试 ⚠️'
+            }
+          })
+          .catch(() => {
+            pushStatus.value = '推送失败，请检查网络 ⚠️'
+          })
+        }
+
+        const retryQuiz = () => {
+          Object.keys(userAnswers).forEach(k => delete userAnswers[k])
+          score.value = 0
+          correctCount.value = 0
+          pushStatus.value = ''
+          page.value = 'quiz'
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+
+        return {
+          dialogVisible, registerDialogVisible, manualLinks, openLink, sendWecomNotify,
+          // 测试相关
+          page, quizzes, quizIndex, currentQuiz, userAnswers,
+          userName, userPhone, score, correctCount, totalScore, pushStatus,
+          answeredCount, canSubmit, optionLabel,
+          startQuiz, submitQuiz, retryQuiz
+        }
       }
     })
 
