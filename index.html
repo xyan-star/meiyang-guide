@@ -304,6 +304,36 @@
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* Reward Banner */
+    .reward-banner {
+      background: linear-gradient(135deg, #FFF7E6, #FFF1CC);
+      border: 1px solid #F5D47A;
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      animation: fadeIn 0.4s ease;
+    }
+    .rb-icon { font-size: 32px; flex-shrink: 0; }
+    .rb-title { font-size: 14px; color: #8B6914; line-height: 1.5; }
+    .rb-title strong { color: #D48806; }
+    .rb-sub { font-size: 12px; color: #A68A3C; margin-top: 4px; }
+
+    /* Quiz Card Badge */
+    .qc-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
+      vertical-align: middle;
+      font-weight: 600;
+    }
+    .qc-badge.pass { background: #E8F5E9; color: #2E7D32; }
+    .qc-badge.fail { background: #FFF3E0; color: #E65100; }
+
     .test-section-title {
       font-size: 18px;
       font-weight: 700;
@@ -692,6 +722,16 @@
         <template v-if="page === 'test-list'">
           <div class="test-page">
             <button class="back-btn" @click="page = 'home'"><i class="fas fa-arrow-left"></i>回到首页</button>
+
+            <!-- Reward Banner -->
+            <div class="reward-banner">
+              <div class="rb-icon">🎁</div>
+              <div class="rb-text">
+                <div class="rb-title">完成全部测试，可获得 <strong>3个学习力综合测评（前测）下载码</strong></div>
+                <div class="rb-sub">测试结果将自动保存，可随时查看历史成绩</div>
+              </div>
+            </div>
+
             <div class="test-section-title"><i class="fas fa-clipboard-list"></i>选择测试问卷</div>
             <div class="quiz-list">
               <div class="quiz-card" v-for="(quiz, idx) in quizzes" :key="quiz.id" @click="startQuiz(idx)">
@@ -699,8 +739,18 @@
                   <i :class="quiz.icon"></i>
                 </div>
                 <div class="qc-info">
-                  <div class="qc-name">{{ quiz.name }}</div>
-                  <div class="qc-desc">{{ quiz.desc }} · {{ quiz.questions.length }}题 · 满分100分</div>
+                  <div class="qc-name">
+                    {{ quiz.name }}
+                    <span v-if="quizResults[idx]" class="qc-badge" :class="quizResults[idx].score >= 60 ? 'pass' : 'fail'">
+                      {{ quizResults[idx].score >= 60 ? '已通过' : '已测' }}
+                    </span>
+                  </div>
+                  <div class="qc-desc">
+                    {{ quiz.desc }} · {{ quiz.questions.length }}题 · 满分100分
+                    <span v-if="quizResults[idx]" style="display:block;margin-top:4px;font-weight:600;color:var(--primary)">
+                      上次成绩：{{ quizResults[idx].score }}分（{{ quizResults[idx].correct }}/{{ quiz.questions.length }}）
+                    </span>
+                  </div>
                 </div>
                 <div class="qc-arrow"><i class="fas fa-chevron-right"></i></div>
               </div>
@@ -1068,6 +1118,20 @@
         const totalScore = ref(100)
         const pushStatus = ref('')
 
+        // 持久化测试结果
+        const STORAGE_KEY = 'meiyang_quiz_results'
+        const quizResults = reactive(JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'))
+
+        const saveQuizResult = (idx, result) => {
+          quizResults[idx] = result
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(quizResults))
+        }
+
+        const clearAllResults = () => {
+          Object.keys(quizResults).forEach(k => delete quizResults[k])
+          localStorage.removeItem(STORAGE_KEY)
+        }
+
         const quizzes = quizBank
         const currentQuiz = computed(() => quizzes[quizIndex.value])
 
@@ -1114,6 +1178,16 @@
           correctCount.value = correct
           score.value = correct * 10
           totalScore.value = quiz.questions.length * 10
+
+          // 持久化保存结果
+          saveQuizResult(quizIndex.value, {
+            name: quiz.name,
+            score: score.value,
+            correct: correct,
+            total: quiz.questions.length,
+            phone: userPhone.value,
+            time: new Date().toLocaleString('zh-CN')
+          })
 
           // 推送企业微信
           pushToWecom(quiz, correct)
@@ -1260,6 +1334,7 @@
           // 测试相关
           page, quizzes, quizIndex, currentQuiz, userAnswers,
           userName, userPhone, score, correctCount, totalScore, pushStatus,
+          quizResults, clearAllResults,
           answeredCount, canSubmit, optionLabel,
           startQuiz, submitQuiz, retryQuiz
         }
