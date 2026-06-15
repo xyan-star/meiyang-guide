@@ -742,7 +742,7 @@
                   <div class="qc-name">
                     {{ quiz.name }}
                     <span v-if="quizResults[idx]" class="qc-badge" :class="quizResults[idx].score >= 70 ? 'pass' : 'fail'">
-                      {{ quizResults[idx].score >= 70 ? '已通过' : '已测' }}
+                      {{ quizResults[idx].score >= 70 ? '已通过' : '已测 未通过' }}
                     </span>
                   </div>
                   <div class="qc-desc">
